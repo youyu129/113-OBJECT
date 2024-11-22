@@ -12,22 +12,35 @@
 // 物件宣告 通常會用大寫開頭
 class Animal{
     // 要先宣告public才能用變數 const常數
-   public $type='animal';
-   public $name='John';
-   public $hair_color='black';
+    // 通常成員不會公開
+   protected $type='animal';
+   protected $name='John';
+   protected $hair_color='black';
+   protected $feet=['front-left','front-right','back-left','back-right'];
 
+    // 通常方法是public
+    // $this就是class Animal
     function __construct($type,$name,$hair_color){
+        // Animal裡面的type就是傳進來的type
         $this->type=$type;
         $this->name=$name;
         $this->hair_color=$hair_color;
     }
 
+    // function通常是public
     function run(){
         echo $this->name.' is running';
     }
 
     function speed(){
+        // 請把裡面的name丟出來
         echo $this->name.' is running at 20km/h';
+    }
+    public function getName(){
+        return $this->name;
+    }
+    public function setName($name){
+        $this->name=$name;
     }
 }
 
@@ -36,25 +49,27 @@ class Animal{
 $cat=new Animal('cat','Kitty','white');
 
 // type使用的時候不需要$
-// 取用cat裡面的type
-echo $cat->type;
-echo $cat->name;
-echo $cat->hair_color;
+// $cat->type 取用cat裡面的type
+
+// echo $cat->type;
+
+// echo $cat->name;
+echo $cat->getName();
+
+// echo $cat->hair_color;
+
 echo $cat->run();
+
 echo $cat->speed();
 
+// 陣列要用print_r
+// print_r($cat->feet);
 
+// $cat->name='';
+// echo $cat->getName();
 
-
-
-
-
-
-
-
-
-
-
+$cat->setName('Mary');
+echo $cat->getName();
 
 
 
