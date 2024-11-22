@@ -36,9 +36,11 @@ class Animal{
         // 請把裡面的name丟出來
         echo $this->name.' is running at 20km/h';
     }
+    // return是回傳值
     public function getName(){
         return $this->name;
     }
+    // 設定名稱，不需要return(回傳)
     public function setName($name){
         $this->name=$name;
     }
@@ -71,9 +73,51 @@ echo $cat->speed();
 $cat->setName('Mary');
 echo $cat->getName();
 
+?>
+
+<h1>繼承</h1>
+<?php
+
+class Cat extends Animal implements Behavior{
+    protected $type='cat';
+    protected $name="Judy";
+
+    function __construct($hair_color){
+        $this->hair_color=$hair_color;
+    }
+
+    function jump(){
+        echo $this->name . " jummpping 2m";
+    }
+}
+
+// 界面
+// 先看Interface 就可以看這些類別裡面有哪些方法
+Interface Behavior{
+    public function run();
+    public function speed();
+    public function jump();
+}
+
+
+
+$mycat=new Cat('white');
+
+echo $mycat->getName();
+echo "<br>";
+echo $mycat->run();
+echo "<br>";
+echo $mycat->speed();
+echo "<br>";
+$mycat->setName("judy");
+echo "<br>";
+echo $mycat->getName();
+echo "<br>";
+echo $mycat->jump();
 
 
 
 ?>
+
 </body>
 </html>
