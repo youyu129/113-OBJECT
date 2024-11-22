@@ -87,7 +87,10 @@ class Cat extends Animal implements Behavior{
     }
 
     function jump(){
-        echo $this->name . " jummpping 2m";
+        echo $this->name . " jumpping 2m";
+    }
+    function getFeet(){
+        return $this->feet;
     }
 }
 
@@ -102,6 +105,7 @@ Interface Behavior{
 
 
 $mycat=new Cat('white');
+print_r($mycat->getFeet());
 
 echo $mycat->getName();
 echo "<br>";
@@ -115,9 +119,48 @@ echo $mycat->getName();
 echo "<br>";
 echo $mycat->jump();
 
-
-
 ?>
 
+<h1>靜態宣告</h1>
+<?php
+
+class Dog extends Animal implements Behavior{
+    protected $type='dog';
+    protected $name="Doggy";
+    static $count=0;
+
+    function __construct($hair_color){
+        $this->hair_color=$hair_color;
+        // self::$count++;
+    }
+
+    function bark(){
+        echo $this->name . " is barking";
+    }
+    function getFeet(){
+        return $this->feet;
+    }
+    function getCount(){
+        return self::$count;
+    }
+    function jump(){
+        echo $this->name . " jumpping 1m";
+    }
+}
+// 0
+echo $dog->getCount();
+
+$dog1=new Dog('brown');
+$dog2=new Dog('black');
+$dog3=new Dog('orange');
+$dog4=new Dog('white');
+
+// 跑四次之後 變成4
+echo $dog->getCount();
+echo $dog->getCount();
+
+// 物件歸物件，類別歸類別
+
+?>
 </body>
 </html>
