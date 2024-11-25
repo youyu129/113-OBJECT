@@ -126,41 +126,42 @@ echo $mycat->jump();
 
 class Dog extends Animal implements Behavior{
     protected $type='dog';
-    protected $name="Doggy";
-    static $count=0;
+    protected $name='Doggy';
+    protected static  $count=0;
+    //static $count=0;
 
     function __construct($hair_color){
         $this->hair_color=$hair_color;
-        // self::$count++;
+        self::$count++;
     }
 
     function bark(){
         echo $this->name . " is barking";
     }
+
     function getFeet(){
         return $this->feet;
     }
-    function getCount(){
+
+    static function getCount(){
         return self::$count;
     }
+
     function jump(){
         echo $this->name . " jumpping 1m";
     }
 }
-// 0
-echo $dog->getCount();
+
+echo Dog::getCount();
 
 $dog1=new Dog('brown');
 $dog2=new Dog('black');
 $dog3=new Dog('orange');
 $dog4=new Dog('white');
+$dog5=new Dog('white');
 
-// 跑四次之後 變成4
-echo $dog->getCount();
-echo $dog->getCount();
 
-// 物件歸物件，類別歸類別
-
+echo Dog::getCount();
 ?>
 </body>
 </html>
