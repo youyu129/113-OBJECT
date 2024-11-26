@@ -17,14 +17,36 @@ class DB {
 
     /*
     * 撈出全部資料
-    *
+    * 1. 整張資料表
+    * 2. 有條件
+    * 3. 其他SQL功能
     */
     // 下面隨時可以呼叫$this->table $this->pdo
     // 下面的function可以隨時取用這兩個變數 $pdo $table
-    function all(){
-        // $table就是dept
-        return $this->q("SELECT * FROM $this->table");
+    // 不定參數...$arg
+    function all(...$arg){
+        // table後面加一個空白
+        $sql="SELECT * FROM $this->table ";
+        
+        if(!empty($arg[0])){
+            if(is_array($arg[0])){
+                $where=$this->a2s($arg[0]);
+                $sql=$sql . " WHERE ". join(" && ",$where);
+            }else{
+                // $sql=$sql.$arg[0];
+                $sql .= $arg[0];
+            }
+
+        }
+        return $this->fetchAll($sql);
     }
+
+        // $table就是dept
+        // return $this->q("SELECT * FROM $this->table");
+        
+        // 一筆資料
+        // return $this->fetchOne($sql);
+    
 
     /*
     * 把陣列轉成條件字串陣列
@@ -66,7 +88,7 @@ $DEPT=new DB('dept');
 
 // 原本$dept=$DEPT->q("SELECT * FROM dept");
 // 可以簡化為下面：
-$dept=$DEPT->all();
+$dept=$DEPT->all(['id'=>3]);
 
 dd($dept);
 
