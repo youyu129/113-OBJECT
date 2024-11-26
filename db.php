@@ -68,6 +68,40 @@ class DB {
         return $this->fetchOne($sql);
     }
     
+    // save
+    // 同時有新增跟編輯的能力
+    // 缺點是一次只能處理一筆資料
+    function save($array){
+        if(isset($array['id'])){
+            // update
+        }else{
+            // insert
+            $cols=array_keys($array);
+            // $sql="INSERT INTO $this->table (``) VALUES('')"
+            // $sql="INSERT INTO $this->table (`".."`) VALUES('".."')";
+            $sql="INSERT INTO $this->table (`".join("`,`",$cols)."`) VALUES('".join("','",$array)."')";
+            return $this->pdo->exec($sql);
+        }
+    }
+
+        /*
+        * 刪除資料
+        * 一筆多筆都可以
+        */
+        function del($id){
+            // table後面加一個空白
+            $sql="DELETE FROM $this->table";
+            
+            if(is_array($id)){
+                $where=$this->a2s($id);
+                $sql=$sql . " WHERE ". join(" && ",$where);
+            }else{
+                // $sql=$sql.$arg[0];
+                $sql .=  " WHERE `id`='$id' ";
+            }
+            // 不須取回資料
+            return $this->pdo->exec($sql);
+    }
     /*
     * 把陣列轉成條件字串陣列
     */
@@ -115,6 +149,8 @@ $DEPT=new DB('dept');
 
 
 $dept=$DEPT->find(['code'=>'404']);
+$DEPT->del(['code'=>'504']);
+$DEPT->save(['code'=>'504','id'=>'7','name'=>'資訊部']);
 
 dd($dept);
 
