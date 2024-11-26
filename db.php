@@ -38,6 +38,10 @@ class DB {
             }
 
         }
+
+        if(!empty($arg[1])){
+            $sql=$sql . $arg[1];
+        }
         return $this->fetchAll($sql);
     }
 
@@ -62,12 +66,12 @@ class DB {
     function fetchOne($sql){
         // debug用：
         //echo $sql;
-        return $this->$pdo->query($sql)->fetch();
+        return $this->pdo->query($sql)->fetch();
     }
     function fetchAll($sql){
         // debug用：
         //echo $sql;
-        return $this->$pdo->query($sql)->fetchAll();
+        return $this->pdo->query($sql)->fetchAll();
     }
     
 }
@@ -88,7 +92,8 @@ $DEPT=new DB('dept');
 
 // 原本$dept=$DEPT->q("SELECT * FROM dept");
 // 可以簡化為下面：
-$dept=$DEPT->all(['id'=>3]);
+// $dept=$DEPT->all(['id'=>3]);
+$dept=$DEPT->all(" Order by `id` DESC");
 
 dd($dept);
 
