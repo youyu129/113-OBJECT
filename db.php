@@ -48,10 +48,26 @@ class DB {
         // $table就是dept
         // return $this->q("SELECT * FROM $this->table");
         
+        /*
+        * 撈出一筆資料
+        * 唯一的，如id、帳號...
+        */
         // 一筆資料
         // return $this->fetchOne($sql);
+        function find($id){
+            // table後面加一個空白
+            $sql="SELECT * FROM $this->table";
+            
+            if(is_array($id)){
+                $where=$this->a2s($id);
+                $sql=$sql . " WHERE ". join(" && ",$where);
+            }else{
+                // $sql=$sql.$arg[0];
+                $sql .=  " WHERE `id`='$id' ";
+            }
+        return $this->fetchOne($sql);
+    }
     
-
     /*
     * 把陣列轉成條件字串陣列
     */
@@ -66,12 +82,12 @@ class DB {
     function fetchOne($sql){
         // debug用：
         //echo $sql;
-        return $this->pdo->query($sql)->fetch();
+        return $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
     }
     function fetchAll($sql){
         // debug用：
         //echo $sql;
-        return $this->pdo->query($sql)->fetchAll();
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
     
 }
@@ -93,7 +109,12 @@ $DEPT=new DB('dept');
 // 原本$dept=$DEPT->q("SELECT * FROM dept");
 // 可以簡化為下面：
 // $dept=$DEPT->all(['id'=>3]);
-$dept=$DEPT->all(" Order by `id` DESC");
+
+// 由大到小排列
+// $dept=$DEPT->all(" Order by `id` DESC");
+
+
+$dept=$DEPT->find(['code'=>'404']);
 
 dd($dept);
 
