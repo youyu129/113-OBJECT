@@ -12,7 +12,7 @@ class DB {
         $this->table=$table;
         // 資料庫沒有設密碼
         // pdo的目的：把資料傳出去
-        $this->pdo=new PDO($this->dsn,'root'.'');
+        $this->pdo=new PDO($this->dsn,'root','');
     }
 
     /*
@@ -72,16 +72,24 @@ class DB {
     // 同時有新增跟編輯的能力
     // 缺點是一次只能處理一筆資料
     function save($array){
+        // 如果有id，就更新資料，如果沒有id，就新增資料
         if(isset($array['id'])){
             // update
-        }else{
-            // insert
+            // update table set `欄位1`='值1',`欄位2`='值2' where `id`='值'
+            $set=$this->a2s($array);
+            $sql="UPDATE $this->table SET ".join(',',$set)." where `id`='{$array['id']}'";
+            
+            
+            }else{
+                // insert
             $cols=array_keys($array);
             // $sql="INSERT INTO $this->table (``) VALUES('')"
             // $sql="INSERT INTO $this->table (`".."`) VALUES('".."')";
             $sql="INSERT INTO $this->table (`".join("`,`",$cols)."`) VALUES('".join("','",$array)."')";
+            }
+            echo $sql;
             return $this->pdo->exec($sql);
-        }
+
     }
 
         /*
@@ -149,7 +157,7 @@ $DEPT=new DB('dept');
 
 
 $dept=$DEPT->find(['code'=>'404']);
-$DEPT->del(['code'=>'504']);
+// $DEPT->del(['code'=>'504']);
 $DEPT->save(['code'=>'504','id'=>'7','name'=>'資訊部']);
 
 dd($dept);
