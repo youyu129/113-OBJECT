@@ -19,7 +19,7 @@ class DB {
     }
 }
 
-
+// 列印陣列的function
 function dd($array){
     echo "<pre>";
     print_r($array);
