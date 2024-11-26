@@ -14,6 +14,10 @@ class DB {
         $this->pdo=new PDO($this->dsn,'root'.'');
     }
 
+    function all(){
+        // $table就是dept
+        return $this->q("SELECT * FROM $this->table");
+    }
     function q($sql){
         return $this->pdo->query($sql)->fetchAll();
     }
@@ -28,7 +32,9 @@ function dd($array){
 
 $DEPT=new DB('dept');
 
-$dept=$DEPT->q("SELECT * FROM dept");
+// 原本$dept=$DEPT->q("SELECT * FROM dept");
+// 可以簡化為下面：
+$dept=$DEPT->all();
 
 dd($dept);
 
