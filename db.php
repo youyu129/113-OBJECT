@@ -16,6 +16,36 @@ class DB {
     }
 
     /*
+    * 方便使用各個聚合函式
+    */
+    
+    // 欄位預設為id
+    // where預設為空陣列
+    function math($math,$col='id',$where=[]){
+        $sql="SELECT $math($col) FROM $this->table";
+        // 如果where不是空的，就把它放進去
+        if(!empty($where)){
+            $tmp=$htis->a2s($where);
+            $sql=$sql . " WHERE " . join(" && ", $tmp);
+        }
+        // 出來的結果是整個陣列
+        // return $this->pdo->query($sql)->fetch();
+
+        // 出來的結果預設是取出$a[0]
+        return $this->pdo->query($sql)->fetchColumn();
+    }
+
+    // 用max命名，寫在class裡面可以，寫在外面不行
+    function max($col,$where=[]){
+        return $this->math('max',$col,$where);
+    }
+
+    function count($where=[]){
+        return $this->math('count','*',$where);
+    }
+}
+    echo $DEPT->max('id',['code'=>'503']);
+    /*
     * 撈出全部資料
     * 1. 整張資料表
     * 2. 有條件
